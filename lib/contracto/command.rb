@@ -5,8 +5,10 @@ class Contracto::Command
       case command
         when 'init'
           Contracto::Installer.new(args).execute
-        when 'run'
+        when 'start'
           Contracto::Runner.new(args).execute
+        when 'stop'
+          Contracto::Terminator.new(args).execute
       end
     end
   end
