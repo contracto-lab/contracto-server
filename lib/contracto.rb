@@ -8,4 +8,5 @@ module Contracto
   CONTRACT_FILENAME = 'contract.cdc.rb'
 
   require 'contracto/installer'
+  require 'contracto/runner'
 end

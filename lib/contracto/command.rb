@@ -6,7 +6,7 @@ class Contracto::Command
         when 'install'
           Contracto::Installer.new(args).execute
         when 'run'
-          system 'rackup contracto/config.ru'
+          Contracto::Runner.new(args).execute
       end
     end
   end
