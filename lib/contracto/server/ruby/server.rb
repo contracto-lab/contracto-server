@@ -1,5 +1,4 @@
-require './contracto/sinatra-1.4.5/lib/sinatra'
-
+require 'sinatra'
 require './contract.cdc.rb'
 
 get '/' do
