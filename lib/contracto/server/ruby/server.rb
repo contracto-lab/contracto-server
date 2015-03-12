@@ -1,6 +1,6 @@
-require_relative 'sinatra-1.4.5/lib/sinatra'
+require './contracto/sinatra-1.4.5/lib/sinatra'
 
-require_relative '../contract.cdc'
+require './contract.cdc.rb'
 
 get '/' do
   'Server is working!'

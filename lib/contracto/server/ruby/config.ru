@@ -1,4 +1,4 @@
-require_relative 'server'
+require './contracto/server'
 
 set :run, false
 set :environment, :production
