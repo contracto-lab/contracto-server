@@ -3,7 +3,7 @@ class Contracto::Command
 
     def run(command, args)
       case command
-        when 'install'
+        when 'init'
           Contracto::Installer.new(args).execute
         when 'run'
           Contracto::Runner.new(args).execute
