@@ -6,6 +6,8 @@ class Contracto::Installer::Local
     remove_old_dir
     cp_server_files
     create_contract unless contract_already_exists?
+    puts 'contracto initialized'
+    puts "start writing contracts in #{Contracto::CONTRACT_FILENAME}"
   rescue
     revert
   end
