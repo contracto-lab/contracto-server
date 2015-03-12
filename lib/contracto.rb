@@ -1,4 +1,4 @@
-require "contracto/version"
+require 'contracto/version' # TODO: replace all #require with #require_relative
 
 module Contracto
   GEM_DIR               = Gem::Specification.find_by_name('contracto').gem_dir
