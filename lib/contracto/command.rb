@@ -9,6 +9,10 @@ class Contracto::Command
           FileUtils.rm_rf 'contracto'
           FileUtils.cp_r "#{gem_dir}/lib/contracto/server/ruby", 'contracto_'
           FileUtils.mv 'contracto_', 'contracto'
+          unless File.exist? 'contract.cdc.rb'
+            FileUtils.mv 'contracto/contract.cdc.rb', '.'
+            puts 'created: contract.cdc.rb'
+          end
 
         when 'run'
           system 'rackup contracto/config.ru'
