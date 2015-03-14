@@ -1,13 +1,17 @@
 class Contracto::Runner
-  PORT = 54321
+  require_relative 'runner/base'
+  require_relative 'runner/remote'
+  require_relative 'runner/local'
 
   def initialize(args)
+    if args.first
+      @strategy = Contracto::Runner::Remote.new(args)
+    else
+      @strategy = Contracto::Runner::Local.new(args)
+    end
   end
 
   def execute
-    system "rackup #{Contracto::CONTRACTO_DIR}/config.ru -p #{PORT} -D -P #{Contracto::CONTRACT_PID_FILEPATH}"
-    # TODO: loop below should terminate after n tries
-    system "while ! echo exit | nc localhost #{PORT} > /dev/null && echo \"Waiting for server...\"; do sleep 1; done"
-    system "curl 0.0.0.0:#{PORT}"
+    @strategy.execute
   end
 end

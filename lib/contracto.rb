@@ -8,6 +8,7 @@ module Contracto
   CONTRACT_FILENAME     = 'contract.cdc.rb'
   CONTRACT_PID_FILEPATH = "#{CONTRACTO_DIR}/server.pid"
 
+  require_relative 'contracto/errors'
   require_relative 'contracto/installer'
   require_relative 'contracto/runner'
   require_relative 'contracto/terminator'
