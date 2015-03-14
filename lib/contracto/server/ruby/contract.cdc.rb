@@ -1,5 +1,5 @@
 # TODO: Should require all *.cdc.rb files
 
-get '/sample' do
-  'sample GET'
+get '/dummy' do
+  'You can start working on your contract'
 end

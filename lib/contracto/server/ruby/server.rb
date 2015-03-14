@@ -2,5 +2,5 @@ require 'sinatra'
 require './contract.cdc.rb'
 
 get '/' do
-  'Server is working!'
+  '*** Contracto server is working! ***'
 end
