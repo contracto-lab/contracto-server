@@ -4,6 +4,8 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'contracto/version'
 
 Gem::Specification.new do |spec|
+  spec.required_ruby_version = '>= 1.9.3'
+
   spec.name          = 'contracto'
   spec.version       = Contracto::VERSION
   spec.authors       = ['Kacper Walanus']
