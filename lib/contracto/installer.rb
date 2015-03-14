@@ -1,5 +1,5 @@
 class Contracto::Installer
-  require 'contracto/installer/local'
+  require_relative 'installer/local'
 
   def initialize(args)
     if args.empty?
