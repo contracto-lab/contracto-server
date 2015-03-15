@@ -7,7 +7,11 @@ class Contracto::Installer
   def execute
     remove_old_dir
     cp_server_files
-    create_contract unless contract_already_exists?
+    if contract_already_exists?
+      remove_sample_contract_file
+    else
+      create_contract
+    end
     puts 'contracto initialized'
     puts "start writing contracts in #{Contracto::CONTRACT_FILENAME}"
   rescue
@@ -26,12 +30,20 @@ class Contracto::Installer
   end
 
   def create_contract
-    FileUtils.mv "#{Contracto::CONTRACTO_DIR}/#{Contracto::CONTRACT_FILENAME}", FileUtils.pwd
+    FileUtils.mv sample_contract_path, FileUtils.pwd
     puts "created: #{installer.CONTRACT_FILENAME}"
   end
 
   def contract_already_exists?
     File.exist? Contracto::CONTRACT_FILENAME
+  end
+
+  def remove_sample_contract_file
+    FileUtils.rm sample_contract_path
+  end
+
+  def sample_contract_path
+    "#{Contracto::CONTRACTO_DIR}/#{Contracto::CONTRACT_FILENAME}"
   end
 
   def revert
