@@ -17,11 +17,17 @@ class Contracto::Runner::Base
     system "rackup #{Contracto::CONTRACTO_DIR}/config.ru -p #{PORT} -D -P #{Contracto::CONTRACT_PID_FILEPATH}"
     # TODO: loop below should terminate after n tries
     system "while ! echo exit | nc localhost #{PORT} > /dev/null && echo \"waiting for contracto server...\"; do sleep 1; done"
-    system "curl 0.0.0.0:#{PORT}"
+    test_request
   end
 
   def server_already_running?
-    system "curl -s -o /dev/null 0.0.0.0:#{PORT} 2> /dev/null"
+    test_request(silent: true)
+  end
+
+  def test_request(options = {})
+    args = ''
+    args << '-s -o /dev/null' if options[:silent]
+    system "curl #{args} 0.0.0.0:#{PORT}/contracto"
   end
 
   def server_repo_url
