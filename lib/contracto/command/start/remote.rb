@@ -1,4 +1,4 @@
-class Contracto::Runner::Remote < Contracto::Runner::Base
+class Contracto::Command::Start::Remote < Contracto::Command::Start::Base
   require 'fileutils'
 
   def execute

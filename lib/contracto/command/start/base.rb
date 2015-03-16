@@ -1,4 +1,4 @@
-class Contracto::Runner::Base
+class Contracto::Command::Start::Base
   PORT = 54321
 
   def initialize(args)

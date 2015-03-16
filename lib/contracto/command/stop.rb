@@ -1,4 +1,4 @@
-class Contracto::Terminator
+class Contracto::Command::Stop
   def initialize(args)
   end
 

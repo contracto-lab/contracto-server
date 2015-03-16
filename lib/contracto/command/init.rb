@@ -1,6 +1,6 @@
 require 'fileutils'
 
-class Contracto::Installer
+class Contracto::Command::Init
   def initialize(args)
   end
 

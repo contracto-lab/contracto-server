@@ -1,14 +1,17 @@
 class Contracto::Command
+  require_relative 'command/init'
+  require_relative 'command/start'
+  require_relative 'command/stop'
   class << self
 
     def run(command, args)
       case command
         when 'init'
-          Contracto::Installer.new(args).execute
+          Contracto::Command::Init.new(args).execute
         when 'start'
-          Contracto::Runner.new(args).execute
+          Contracto::Command::Start.new(args).execute
         when 'stop'
-          Contracto::Terminator.new(args).execute
+          Contracto::Command::Stop.new(args).execute
       end
     end
   end
