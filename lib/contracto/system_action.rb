@@ -1,16 +1,18 @@
 class Contracto::SystemAction
   class << self
+    include Contracto::Constants
+
     def remove_contracto_dir
-      FileUtils.rm_rf Contracto::CONTRACTO_DIR
+      FileUtils.rm_rf contracto_dir
     end
 
     def remove_tmp_contracto_dir
-      FileUtils.rm_rf Contracto::CONTRACTO_TMP_DIR
+      FileUtils.rm_rf contracto_tmp_dir
     end
 
     def copy_server_files
-      FileUtils.cp_r Contracto::RUBY_SERVER_DIR, Contracto::CONTRACTO_TMP_DIR
-      FileUtils.mv Contracto::CONTRACTO_TMP_DIR, Contracto::CONTRACTO_DIR
+      FileUtils.cp_r ruby_server_dir, contracto_tmp_dir
+      FileUtils.mv contracto_tmp_dir, contracto_dir
     end
 
     def revert_copy_server_files
@@ -24,22 +26,22 @@ class Contracto::SystemAction
         remove_sample_contract
       else
         FileUtils.mv sample_contract_path, FileUtils.pwd
-        puts "created: #{Contracto::CONTRACT_FILENAME}"
+        puts "created: #{contract_filename}"
       end
     end
 
     def start_server
       raise Contracto::ServerAlreadyRunningError if server_already_running?
 
-      system "rackup #{Contracto::CONTRACTO_DIR}/config.ru -p #{Contracto::PORT} -D -P #{Contracto::CONTRACT_PID_FILEPATH}"
+      system "rackup #{contracto_dir}/config.ru -p #{port} -D -P #{contract_pid_filepath}"
       # TODO: loop below should terminate after n tries
-      system "while ! echo exit | nc localhost #{Contracto::PORT} > /dev/null && echo \"waiting for contracto server...\"; do sleep 1; done"
+      system "while ! echo exit | nc localhost #{port} > /dev/null && echo \"waiting for contracto server...\"; do sleep 1; done"
       test_request
     end
 
     def stop_server
       puts 'killing server...'
-      Process.kill(15, File.read(Contracto::CONTRACT_PID_FILEPATH).to_i)
+      Process.kill(15, File.read(contract_pid_filepath).to_i)
       puts '...server killed'
     end
 
@@ -48,7 +50,7 @@ class Contracto::SystemAction
     end
 
     def clone_repo_to_tmp_contracto_dir
-      system "git clone -q  --depth 1 --single-branch --branch master #{Contracto::Config.repo_url} #{Contracto::CONTRACTO_TMP_DIR}"
+      system "git clone -q  --depth 1 --single-branch --branch master #{Contracto::Config.repo_url} #{contracto_tmp_dir}"
     rescue
       raise(Contracto::CouldNotDownloadContractError.new(Contracto::Config.repo_url))
     end
@@ -58,13 +60,13 @@ class Contracto::SystemAction
     end
 
     def move_repo_files_to_root_dir
-      system "mv #{Contracto::CONTRACTO_TMP_DIR}/* #{Contracto::CONTRACTO_TMP_DIR}/.[^.]* . 2> /dev/null"  # Could not use FileUtils for some reason
+      system "mv #{contracto_tmp_dir}/* #{contracto_tmp_dir}/.[^.]* . 2> /dev/null"  # Could not use FileUtils for some reason
     end
     
     private
 
     def contract_already_exists?
-      File.exist?(Contracto::CONTRACT_FILENAME)
+      File.exist?(contract_filename)
     end
 
     def remove_sample_contract
@@ -72,7 +74,7 @@ class Contracto::SystemAction
     end
 
     def sample_contract_path
-      "#{Contracto::CONTRACTO_DIR}/#{Contracto::CONTRACT_FILENAME}"
+      "#{contracto_dir}/#{contract_filename}"
     end
 
     def server_already_running?
@@ -82,7 +84,7 @@ class Contracto::SystemAction
     def test_request(options = {})
       args = ''
       args << '-s -o /dev/null' if options[:silent]
-      system "curl #{args} 0.0.0.0:#{Contracto::PORT}/contracto"
+      system "curl #{args} 0.0.0.0:#{port}/contracto"
     end
   end
 end

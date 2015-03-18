@@ -5,7 +5,7 @@ get '/contracto' do
   "*** Contracto server is working! [#{Gem::Specification.find_by_name('contracto').version}] ***"
 end
 
-json_string = File.read Contracto::CONTRACT_FILENAME
+json_string = File.read Contracto::Constants::CONTRACT_FILENAME
 json_strings = [json_string]
 
 Contracto::Parser.new(json_strings).contracts.each do |contract|
