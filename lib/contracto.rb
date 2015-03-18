@@ -9,5 +9,7 @@ module Contracto
   CONTRACT_PID_FILEPATH = "#{CONTRACTO_DIR}/server.pid"
 
   require_relative 'contracto/errors'
+  require_relative 'contracto/contract'
+  require_relative 'contracto/parser'
   require_relative 'contracto/command'
 end
