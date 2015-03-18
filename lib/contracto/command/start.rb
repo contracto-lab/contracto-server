@@ -1,13 +1,12 @@
 class Contracto::Command::Start
-  require_relative 'start/base'
   require_relative 'start/remote'
   require_relative 'start/local'
 
   def initialize(args)
     if args.first
-      @strategy = Contracto::Command::Start::Remote.new(args)
+      @strategy = Contracto::Command::Start::Remote.new(args.first)
     else
-      @strategy = Contracto::Command::Start::Local.new(args)
+      @strategy = Contracto::Command::Start::Local.new
     end
   end
 

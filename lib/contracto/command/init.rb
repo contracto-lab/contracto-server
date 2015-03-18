@@ -1,5 +1,3 @@
-require 'fileutils'
-
 class Contracto::Command::Init
   def initialize(args)
   end

@@ -37,8 +37,28 @@ class Contracto::SystemAction
       test_request
     end
 
+    def stop_server
+      puts 'killing server...'
+      Process.kill(15, File.read(Contracto::CONTRACT_PID_FILEPATH).to_i)
+      puts '...server killed'
+    end
+
     def revert_start_server
       stop_server
+    end
+
+    def clone_repo_to_tmp_contracto_dir
+      system "git clone -q  --depth 1 --single-branch --branch master #{Contracto::Config.repo_url} #{Contracto::CONTRACTO_TMP_DIR}"
+    rescue
+      raise(Contracto::CouldNotDownloadContractError.new(Contracto::Config.repo_url))
+    end
+
+    def revert_clone_repo_to_tmp_contracto_dir
+      remove_tmp_contracto_dir
+    end
+
+    def move_repo_files_to_root_dir
+      system "mv #{Contracto::CONTRACTO_TMP_DIR}/* #{Contracto::CONTRACTO_TMP_DIR}/.[^.]* . 2> /dev/null"  # Could not use FileUtils for some reason
     end
     
     private
@@ -75,7 +95,7 @@ class Contracto::SystemActionChain
   def execute
     perform_actions and true
   rescue StandardError => e
-    puts "ERROR: #{e.class}"
+    puts "ERROR: #{e.class}: #{e.message}"
     puts "#{e.backtrace.join("\n")}"
 
     revert_actions and false

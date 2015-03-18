@@ -10,6 +10,7 @@ module Contracto
   PORT                  = 54321
 
   require_relative 'contracto/errors'
+  require_relative 'contracto/config'
   require_relative 'contracto/contract'
   require_relative 'contracto/parser'
   require_relative 'contracto/system_action'

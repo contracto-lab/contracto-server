@@ -3,8 +3,12 @@ class Contracto::Command::Stop
   end
 
   def execute
-    puts 'killing server...'
-    Process.kill(15, File.read(Contracto::CONTRACT_PID_FILEPATH).to_i)
-    puts 'server terminated'
+    Contracto::SystemActionChain.new(*actions).execute
+  end
+
+  private
+
+  def actions
+    [:stop_server]
   end
 end

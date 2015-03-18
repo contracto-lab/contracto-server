@@ -1,29 +1,22 @@
-class Contracto::Command::Start::Remote < Contracto::Command::Start::Base
-  require 'fileutils'
+class Contracto::Command::Start::Remote
+  def initialize(repo_url)
+    Contracto::Config.repo_url = repo_url
+  end
 
   def execute
-    puts 'downloading contract...'
-    clone_repo || raise(Contracto::CouldNotDownloadContractError.new(server_repo_url))
-    mv_repo_files_to_current_dir
-    remove_old_repo_dir
-    start_server
+    puts "downloading contract from #{Contracto::Config.repo_url}"
+    Contracto::SystemActionChain.new(*actions).execute
   end
 
   private
 
-  def clone_repo
-    system "git clone -q  --depth 1 --single-branch --branch master #{server_repo_url} #{tmp_dir}"
-  end
-
-  def mv_repo_files_to_current_dir
-    system "mv #{tmp_dir}/* #{tmp_dir}/.[^.]* . 2> /dev/null"  # Could not use FileUtils for some reason
-  end
-
-  def remove_old_repo_dir
-    FileUtils.rm_rf tmp_dir
-  end
-
-  def tmp_dir
-    Contracto::CONTRACTO_TMP_DIR
+  def actions
+    [
+      :clone_repo_to_tmp_contracto_dir,
+      :move_repo_files_to_root_dir,
+      :remove_tmp_contracto_dir,
+      :copy_server_files,
+      :start_server
+    ]
   end
 end

@@ -1,4 +1,4 @@
-class Contracto::Command::Start::Local < Contracto::Command::Start::Base
+class Contracto::Command::Start::Local
   def execute
     Contracto::SystemActionChain.new(*actions).execute
   end
