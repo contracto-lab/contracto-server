@@ -11,5 +11,6 @@ module Contracto
   require_relative 'contracto/errors'
   require_relative 'contracto/contract'
   require_relative 'contracto/parser'
+  require_relative 'contracto/system_action'
   require_relative 'contracto/command'
 end
