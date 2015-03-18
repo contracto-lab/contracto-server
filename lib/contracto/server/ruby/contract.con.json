@@ -1,0 +1,46 @@
+[
+  {
+    "request": {
+      "http_method": "get",
+      "path": "/users"
+    },
+    "examples": [
+      {
+        "request": {
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "firstName": "Max",
+            "lastName": "Lincoln"
+          }
+        },
+        "response": {
+          "body": {}
+        }
+      }
+    ]
+  },
+  {
+    "request": {
+      "http_method": "get",
+      "path": "/users/:id"
+    },
+    "examples": [
+      {
+        "request": {
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "firstName": "Max",
+            "lastName": "Lincoln"
+          }
+        },
+        "response": {
+          "body": {}
+        }
+      }
+    ]
+  }
+]

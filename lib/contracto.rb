@@ -5,7 +5,7 @@ module Contracto
   CONTRACTO_DIR         = 'contracto'
   CONTRACTO_TMP_DIR     = '.tmp.contracto'
   RUBY_SERVER_DIR       = "#{GEM_DIR}/lib/contracto/server/ruby"
-  CONTRACT_FILENAME     = 'contract.cdc.rb'
+  CONTRACT_FILENAME     = 'contract.con.json'
   CONTRACT_PID_FILEPATH = "#{CONTRACTO_DIR}/server.pid"
 
   require_relative 'contracto/errors'
