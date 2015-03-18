@@ -7,6 +7,7 @@ module Contracto
   RUBY_SERVER_DIR       = "#{GEM_DIR}/lib/contracto/server/ruby"
   CONTRACT_FILENAME     = 'contract.con.json'
   CONTRACT_PID_FILEPATH = "#{CONTRACTO_DIR}/server.pid"
+  PORT                  = 54321
 
   require_relative 'contracto/errors'
   require_relative 'contracto/contract'

@@ -1,7 +1,11 @@
 class Contracto::SystemAction
   class << self
-    def remove_old_contracto_dir
+    def remove_contracto_dir
       FileUtils.rm_rf Contracto::CONTRACTO_DIR
+    end
+
+    def remove_tmp_contracto_dir
+      FileUtils.rm_rf Contracto::CONTRACTO_TMP_DIR
     end
 
     def copy_server_files
@@ -10,7 +14,8 @@ class Contracto::SystemAction
     end
 
     def revert_copy_server_files
-      remove_old_contracto_dir
+      remove_contracto_dir
+      remove_tmp_contracto_dir
     end
 
     def create_sample_contract
@@ -23,6 +28,19 @@ class Contracto::SystemAction
       end
     end
 
+    def start_server
+      raise Contracto::ServerAlreadyRunningError if server_already_running?
+
+      system "rackup #{Contracto::CONTRACTO_DIR}/config.ru -p #{Contracto::PORT} -D -P #{Contracto::CONTRACT_PID_FILEPATH}"
+      # TODO: loop below should terminate after n tries
+      system "while ! echo exit | nc localhost #{Contracto::PORT} > /dev/null && echo \"waiting for contracto server...\"; do sleep 1; done"
+      test_request
+    end
+
+    def revert_start_server
+      stop_server
+    end
+    
     private
 
     def contract_already_exists?
@@ -35,6 +53,16 @@ class Contracto::SystemAction
 
     def sample_contract_path
       "#{Contracto::CONTRACTO_DIR}/#{Contracto::CONTRACT_FILENAME}"
+    end
+
+    def server_already_running?
+      test_request(silent: true)
+    end
+
+    def test_request(options = {})
+      args = ''
+      args << '-s -o /dev/null' if options[:silent]
+      system "curl #{args} 0.0.0.0:#{Contracto::PORT}/contracto"
     end
   end
 end
