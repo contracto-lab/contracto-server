@@ -6,3 +6,4 @@ contracto init
 contracto start
 contracto stop
 cd ..
+rm -rf tmp
