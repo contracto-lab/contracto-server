@@ -1,4 +1,6 @@
 class Contracto::SystemAction
+  require 'fileutils'
+
   class << self
     include Contracto::Constants
 
