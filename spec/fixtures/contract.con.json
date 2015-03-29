@@ -1,0 +1,54 @@
+[
+  {
+    "request": {
+      "http_method": "get",
+      "path": "/users"
+    },
+    "responses": [
+      {
+        "request": {
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        },
+        "response": {
+          "body_path": "users.json"
+        }
+      }
+    ]
+  },
+  {
+    "request": {
+      "http_method": "get",
+      "path": "/users/:id"
+    },
+    "responses": [
+      {
+        "request": {
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "id": 1
+          }
+        },
+        "response": {
+          "body_path": "users/1.json"
+        }
+      },
+      {
+        "request": {
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "id": 2
+          }
+        },
+        "response": {
+          "body_path": "users/2.json"
+        }
+      }
+    ]
+  }
+]
