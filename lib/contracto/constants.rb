@@ -1,5 +1,6 @@
 module Contracto::Constants
   GEM_DIR               = Gem::Specification.find_by_name('contracto').gem_dir
+  ROOT_DIR              = FileUtils.pwd
   CONTRACTO_DIR         = '.contracto'
   CONTRACTO_TMP_DIR     = '.tmp.contracto'
   RUBY_SERVER_DIR       = "#{GEM_DIR}/lib/contracto/server/ruby"
@@ -9,6 +10,10 @@ module Contracto::Constants
 
   def gem_dir
     GEM_DIR
+  end
+
+  def root_dir
+    ROOT_DIR
   end
 
   def contracto_dir

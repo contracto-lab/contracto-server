@@ -1,7 +1,10 @@
 class Contracto::Contract
+  require_relative 'contract/response'
+
   def initialize(hash)
     @hash = hash
-    @request = Contracto::Contract::Request.new(@hash.fetch('request'))
+    @request   = Contracto::Contract::Request.new(@hash.fetch('request'))
+    @responses = Contracto::Contract::Responses.new(@hash.fetch('responses'))
   end
 
   def http_method
@@ -13,9 +16,21 @@ class Contracto::Contract
   end
 
   def response_body(params)
-    params.to_s
+    response = @responses.find_by_params(params)
+    raise Contracto::ResponseNotFoundError.new(params) unless response
+    response.body
   end
-  
+
+  class Contracto::Contract::Responses
+    def initialize(responses)
+      @responses = responses.map { |response| Contracto::Contract::Response.new(response) }
+    end
+
+    def find_by_params(params)
+      @responses.find { |response| response.params_matches?(params) }
+    end
+  end
+
   class Contracto::Contract::Request
     def initialize(hash)
       @hash = hash
