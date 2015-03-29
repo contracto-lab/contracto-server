@@ -6,21 +6,16 @@ TODO: Write a gem description
 
 Add this line to your application's Gemfile:
 
-```ruby
-gem 'contracto'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
     $ gem install contracto
 
 ## Usage
 
-TODO: Write usage instructions here
+    $ gem install contracto
+    $ contracto start https://github.com/kv109/cdc-sample-contract.git
+    $ curl 0.0.0.0:54321/users
+    $ curl 0.0.0.0:54321/users/1
+    $ curl 0.0.0.0:54321/users/2
+    $ contracto stop
 
 ## Contributing
 
