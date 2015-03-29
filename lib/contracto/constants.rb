@@ -1,4 +1,6 @@
 module Contracto::Constants
+  require 'fileutils'
+  
   GEM_DIR               = Gem::Specification.find_by_name('contracto').gem_dir
   ROOT_DIR              = FileUtils.pwd
   CONTRACTO_DIR         = '.contracto'
