@@ -1,8 +1,8 @@
+# IN PROGRESS
+
 # Contracto
 
 Creates HTTP server based on your contract.
-
-# IN PROGRESS
 
 ## Usage
 
