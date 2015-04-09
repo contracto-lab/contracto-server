@@ -2,6 +2,8 @@
 
 Creates HTTP server based on your contract.
 
+# IN PROGRESS
+
 ## Usage
 
     $ gem install contracto
