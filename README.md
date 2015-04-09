@@ -14,7 +14,7 @@ Start server:
 
     $ contracto start git@github.com:kv109/contracto_sample-contract.git
     
-Test server (default port is 54321):
+Test server (default port is `54321`):
 
     $ curl 0.0.0.0:54321/users; curl 0.0.0.0:54321/users/1; curl 0.0.0.0:54321/users/2
     
