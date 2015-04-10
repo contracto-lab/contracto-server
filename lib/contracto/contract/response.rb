@@ -23,6 +23,21 @@ class Contracto::Contract::Response
   end
 
   def body
-    File.read(root_dir + body_path)
+    set_body
+    @body.tap do
+      replace_params_placeholders_with_params_value
+    end
+  end
+
+  private
+
+  def set_body
+    @body = File.read(root_dir + body_path)
+  end
+
+  def replace_params_placeholders_with_params_value
+    params.each do |key, value|
+      @body.gsub!(":#{key}", value.to_s) if value
+    end
   end
 end
