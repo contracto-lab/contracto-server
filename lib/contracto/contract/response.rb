@@ -7,7 +7,7 @@ class Contracto::Contract::Response
   end
 
   def params
-    @hash.fetch('request')['params']  #TODO: should it be optional or required?
+    @hash.fetch('request')['params'] || {}  #TODO: should it be optional or required?
   end
 
   def body_path
