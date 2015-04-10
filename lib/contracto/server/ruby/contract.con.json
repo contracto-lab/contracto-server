@@ -4,19 +4,15 @@
       "http_method": "get",
       "path": "/users"
     },
-    "examples": [
+    "responses": [
       {
         "request": {
           "headers": {
             "Content-Type": "application/json"
-          },
-          "body": {
-            "firstName": "Max",
-            "lastName": "Lincoln"
           }
         },
         "response": {
-          "body": {}
+          "body_path": "/users.json"
         }
       }
     ]
@@ -26,19 +22,31 @@
       "http_method": "get",
       "path": "/users/:id"
     },
-    "examples": [
+    "responses": [
       {
         "request": {
           "headers": {
             "Content-Type": "application/json"
           },
-          "body": {
-            "firstName": "Max",
-            "lastName": "Lincoln"
+          "params": {
+            "id": 1
           }
         },
         "response": {
-          "body": {}
+          "body_path": "/users/1.json"
+        }
+      },
+      {
+        "request": {
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "params": {
+            "id": 2
+          }
+        },
+        "response": {
+          "body_path": "/users/2.json"
         }
       }
     ]
