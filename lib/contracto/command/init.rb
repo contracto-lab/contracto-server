@@ -16,8 +16,6 @@ class Contracto::Command::Init
 
   def actions
     [
-      :remove_contracto_dir,
-      :copy_server_files,
       :create_sample_contract
     ]
   end

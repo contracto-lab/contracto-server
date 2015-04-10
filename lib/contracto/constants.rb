@@ -7,7 +7,7 @@ module Contracto::Constants
   CONTRACTO_TMP_DIR     = '.tmp.contracto'
   RUBY_SERVER_DIR       = "#{GEM_DIR}/lib/contracto/server/ruby"
   CONTRACT_FILENAME     = 'contract.con.json'
-  CONTRACT_PID_FILEPATH = "#{CONTRACTO_DIR}/server.pid"
+  CONTRACT_PID_FILEPATH = "#{ROOT_DIR}/server.pid"
   PORT                  = 54321
 
   def gem_dir

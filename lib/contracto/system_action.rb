@@ -12,22 +12,11 @@ class Contracto::SystemAction
       FileUtils.rm_rf contracto_tmp_dir
     end
 
-    def copy_server_files
-      FileUtils.cp_r ruby_server_dir, contracto_tmp_dir
-      FileUtils.mv contracto_tmp_dir, contracto_dir
-    end
-
-    def revert_copy_server_files
-      remove_contracto_dir
-      remove_tmp_contracto_dir
-    end
-
     def create_sample_contract
       if contract_already_exists?
         puts 'contract already exists, creating sample contract skipped'
-        remove_sample_contract
       else
-        FileUtils.mv sample_contract_path, FileUtils.pwd
+        FileUtils.cp sample_contract_path, FileUtils.pwd
         puts "created: #{contract_filename}"
       end
     end
@@ -35,7 +24,7 @@ class Contracto::SystemAction
     def start_server
       raise Contracto::ServerAlreadyRunningError if server_already_running?
 
-      system "rackup #{contracto_dir}/config.ru -p #{port} -D -P #{contract_pid_filepath}"
+      system "rackup #{ruby_server_dir}/config.ru -p #{port} -D -P #{contract_pid_filepath}"
       # TODO: loop below should terminate after n tries
       system "while ! echo exit | nc localhost #{port} > /dev/null && echo \"waiting for contracto server...\"; do sleep 1; done"
       test_request
@@ -70,15 +59,11 @@ class Contracto::SystemAction
     private
 
     def contract_already_exists?
-      File.exist?(contract_filename)
-    end
-
-    def remove_sample_contract
-      FileUtils.rm sample_contract_path
+      File.exist?("#{root_dir}/#{contract_filename}")
     end
 
     def sample_contract_path
-      "#{contracto_dir}/#{contract_filename}"
+      "#{ruby_server_dir}/#{contract_filename}"
     end
 
     def server_already_running?
