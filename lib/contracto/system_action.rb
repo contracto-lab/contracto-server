@@ -12,7 +12,8 @@ class Contracto::SystemAction
       if contract_already_exists?
         puts 'contract already exists, creating sample contract skipped'
       else
-        FileUtils.cp sample_contract_path, FileUtils.pwd
+        FileUtils.cp_r sample_contract_dir, contracto_tmp_dir
+        move_tmp_dir_files_to_root_dir
         puts "created: #{contract_filename}"
       end
     end
@@ -48,18 +49,18 @@ class Contracto::SystemAction
       remove_tmp_contracto_dir
     end
 
-    def move_repo_files_to_root_dir
-      system "mv #{contracto_tmp_dir}/* #{contracto_tmp_dir}/.[^.]* . 2> /dev/null"  # Could not use FileUtils for some reason
+    def move_tmp_dir_files_to_root_dir
+      move_dir_files_to_root_dir(contracto_tmp_dir)
     end
     
     private
 
-    def contract_already_exists?
-      File.exist?("#{root_dir}/#{contract_filename}")
+    def move_dir_files_to_root_dir(dir)
+      system "mv #{dir}/* #{dir}/.[^.]* . 2> /dev/null"  # Could not use FileUtils for some reason
     end
 
-    def sample_contract_path
-      "#{ruby_server_dir}/#{contract_filename}"
+    def contract_already_exists?
+      File.exist?("#{root_dir}/#{contract_filename}")
     end
 
     def server_already_running?

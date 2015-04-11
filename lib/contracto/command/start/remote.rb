@@ -13,7 +13,7 @@ class Contracto::Command::Start::Remote
   def actions
     [
       :clone_repo_to_tmp_contracto_dir,
-      :move_repo_files_to_root_dir,
+      :move_tmp_dir_files_to_root_dir,
       :remove_tmp_contracto_dir,
       :start_server
     ]
