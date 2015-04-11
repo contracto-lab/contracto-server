@@ -4,10 +4,6 @@ class Contracto::SystemAction
   class << self
     include Contracto::Constants
 
-    def remove_contracto_dir
-      FileUtils.rm_rf contracto_dir
-    end
-
     def remove_tmp_contracto_dir
       FileUtils.rm_rf contracto_tmp_dir
     end
