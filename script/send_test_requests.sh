@@ -1,6 +1,2 @@
 #!/usr/bin/env bash
-curl 0.0.0.0:54321/users
-curl 0.0.0.0:54321/users/1
-curl 0.0.0.0:54321/users/2
-curl 0.0.0.0:54321/users/1/posts
-curl 0.0.0.0:54321/users/2/posts
+for path in users users/1 users/2 users/1/posts users/2/posts; do curl 0.0.0.0:54321/$path; done
