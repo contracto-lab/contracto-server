@@ -8,4 +8,8 @@ module Contracto
   require_relative 'contracto/parser'
   require_relative 'contracto/system_action_chain'
   require_relative 'contracto/command'
+
+  def self.configure(&block)
+    Contracto::Config.configure(&block)
+  end
 end

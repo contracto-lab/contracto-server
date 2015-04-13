@@ -1,11 +1,16 @@
 class Contracto::Config
+  extend Contracto::Constants
+
   class << self
-    def repo_url=(repo_url)
-      @repo_url = repo_url
+
+    attr_accessor :repo_url
+
+    def configure
+      yield self if block_given?
     end
 
     def repo_url
-      @repo_url
     end
+
   end
 end
