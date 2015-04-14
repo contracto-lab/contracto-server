@@ -4,12 +4,14 @@ class Contracto::Config
   class << self
 
     attr_accessor :repo_url
+    attr_accessor :root_dir
 
     def configure
       yield self if block_given?
     end
 
-    def repo_url
+    def root_dir
+      @root_dir || default_root_dir
     end
 
   end

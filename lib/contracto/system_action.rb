@@ -26,7 +26,7 @@ class Contracto::SystemAction
 
       options = {
         app_name: server_pidfile_name,
-        dir: root_dir,
+        dir: Contracto::Config.root_dir,
         dir_mode: :normal
       }
 
@@ -43,7 +43,7 @@ class Contracto::SystemAction
 
     def stop_server
       puts 'killing server...'
-      Process.kill(15, File.read(server_pidfile_path).to_i)
+      Process.kill(15, File.read("#{Contracto::Config.root_dir}/#{server_pidfile_name}.pid").to_i)
       puts '...server killed'
     rescue Errno::ENOENT
       puts 'could not kill server (pidfile not found)'
@@ -74,7 +74,7 @@ class Contracto::SystemAction
     end
 
     def contract_already_exists?
-      File.exist?("#{root_dir}/#{contract_filename}")
+      File.exist?("#{Contracto::Config.root_dir}/#{contract_filename}")
     end
 
     def server_already_running?

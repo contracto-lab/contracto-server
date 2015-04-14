@@ -32,7 +32,7 @@ class Contracto::Contract::Response
   private
 
   def set_body
-    @body = File.read(root_dir + body_path)
+    @body = File.read(Contracto::Config.root_dir + body_path)
   end
 
   def replace_params_placeholders_with_params_value

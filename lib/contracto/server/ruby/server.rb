@@ -8,7 +8,7 @@ class Contracto::Server < Sinatra::Base
     "*** Contracto server is working! [#{Gem::Specification.find_by_name('contracto').version}] ***"
   end
 
-  jsons_with_contracts = Dir["#{Contracto::Constants::ROOT_DIR}/**/*.con.json"].map do |file_with_contract|
+  jsons_with_contracts = Dir["#{Contracto::Config.root_dir}/**/*.con.json"].map do |file_with_contract|
     File.read file_with_contract
   end
 
