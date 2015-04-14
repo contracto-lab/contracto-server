@@ -6,49 +6,26 @@ module Contracto::Constants
   CONTRACTO_DIR         = '.contracto'
   CONTRACTO_TMP_DIR     = '.tmp.contracto'
   RUBY_SERVER_DIR       = "#{GEM_DIR}/lib/contracto/server/ruby"
-  CONTRACT_FILENAME     = 'contract.con.json'
+  CONTRACT_FILENAME     = 'contract.con.json'   # TODO: remove
   SAMPLE_CONTRACT_DIR   = "#{GEM_DIR}/spec/fixtures"
   SERVER_PIDFILE_NAME   = 'server'
   SERVER_PIDFILE_PATH   = "#{ROOT_DIR}/#{SERVER_PIDFILE_NAME}.pid"
   PORT                  = 54321
 
-  def gem_dir
-    GEM_DIR
+  %w(
+    gem_dir
+    root_dir
+    contracto_dir
+    contracto_tmp_dir
+    sample_contract_dir
+    contract_filename
+    server_pidfile_name
+    server_pidfile_path
+    port
+  ).each do |method_name|
+    define_method method_name do
+      Contracto::Constants.const_get method_name.upcase
+    end
   end
 
-  def root_dir
-    ROOT_DIR
-  end
-
-  def contracto_dir
-    CONTRACTO_DIR
-  end
-
-  def contracto_tmp_dir
-    CONTRACTO_TMP_DIR
-  end
-
-  def ruby_server_dir
-    RUBY_SERVER_DIR
-  end
-
-  def sample_contract_dir
-    SAMPLE_CONTRACT_DIR
-  end
-
-  def contract_filename
-    CONTRACT_FILENAME
-  end
-
-  def server_pidfile_name
-    SERVER_PIDFILE_NAME
-  end
-
-  def server_pidfile_path
-    SERVER_PIDFILE_PATH
-  end
-
-  def port
-    PORT
-  end
 end
