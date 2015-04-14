@@ -21,15 +21,29 @@ class Contracto::SystemAction
     def start_server
       raise Contracto::ServerAlreadyRunningError if server_already_running?
 
-      system "rackup #{ruby_server_dir}/config.ru -p #{port} -D -P #{contract_pid_filepath}"
-      # TODO: loop below should terminate after n tries
-      system "while ! echo exit | nc localhost #{port} > /dev/null && echo \"waiting for contracto server...\"; do sleep 1; done"
-      test_request
+      require_relative 'server/ruby/server'
+      require 'daemons'
+
+      options = {
+        app_name: server_pidfile_name,
+        dir: root_dir,
+        dir_mode: :normal
+      }
+
+      Daemons.call(options) do
+        Contracto::Server.run!
+      end
+
+      5.downto(0).each do |n|
+        sleep 1
+        puts "waiting for contracto server, #{n} tries left..."
+        break if test_request(silent: true)
+      end
     end
 
     def stop_server
       puts 'killing server...'
-      Process.kill(15, File.read(contract_pid_filepath).to_i)
+      Process.kill(15, File.read(server_pidfile_path).to_i)
       puts '...server killed'
     rescue Errno::ENOENT
       puts 'could not kill server (pidfile not found)'
