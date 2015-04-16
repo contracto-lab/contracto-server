@@ -30,6 +30,10 @@ class Contracto::Contract::Response
     end
   end
 
+  def conditions_number
+    params.keys.size + headers.keys.size
+  end
+
   def body
     set_body
     @body.tap do

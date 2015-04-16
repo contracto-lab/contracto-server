@@ -23,7 +23,9 @@ class Contracto::Contract
 
   class Contracto::Contract::Responses
     def initialize(responses)
-      @responses = responses.map { |response| Contracto::Contract::Response.new(response) }
+      @responses = responses.map do |response|
+        Contracto::Contract::Response.new(response)
+      end.sort_by(&:conditions_number).reverse
     end
 
     def find_by_params_and_headers(params, headers)
