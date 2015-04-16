@@ -22,6 +22,14 @@ class Contracto::Contract::Response
     end
   end
 
+  def headers_matches?(other_headers)
+    return true if headers.empty?
+
+    headers.keys.all? do |key|
+      other_headers["HTTP_#{key.upcase}"] == headers[key]
+    end
+  end
+
   def body
     set_body
     @body.tap do

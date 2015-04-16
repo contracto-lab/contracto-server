@@ -15,8 +15,8 @@ class Contracto::Contract
     @request.url_pattern
   end
 
-  def response_body(params)
-    response = @responses.find_by_params(params)
+  def response_body(params, headers)
+    response = @responses.find_by_params_and_headers(params, headers)
     raise Contracto::ResponseNotFoundError.new(params) unless response
     response.body
   end
@@ -26,8 +26,10 @@ class Contracto::Contract
       @responses = responses.map { |response| Contracto::Contract::Response.new(response) }
     end
 
-    def find_by_params(params)
-      @responses.find { |response| response.params_matches?(params) }
+    def find_by_params_and_headers(params, headers)
+      @responses.find do |response|
+        response.params_matches?(params) && response.headers_matches?(headers)
+      end
     end
   end
 
