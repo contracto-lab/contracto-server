@@ -1,0 +1,14 @@
+<users type="array">
+  <user>
+    <id type="integer">1</id>
+    <first-name>Albert</first-name>
+    <last-name>Einstein</last-name>
+    <age type="integer">30</age>
+  </user>
+  <user>
+    <id type="integer">2</id>
+    <first-name>Kurt</first-name>
+    <last-name>Godel</last-name>
+    <age type="integer">35</age>
+  </user>
+</users>
