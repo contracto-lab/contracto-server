@@ -4,7 +4,7 @@ class Contracto::Command::Start::Remote
   end
 
   def execute
-    puts "downloading contract from #{Contracto::Config.repo_url}"
+    puts "downloading contract from #{Contracto::Config.repo_url} to #{Contracto::Config.root_dir}"
     Contracto::SystemActionChain.new(*actions).execute
   end
 
@@ -12,9 +12,7 @@ class Contracto::Command::Start::Remote
 
   def actions
     [
-      :clone_repo_to_tmp_contracto_dir,
-      :move_tmp_dir_files_to_root_dir,
-      :remove_tmp_contracto_dir,
+      :clone_repo,
       :start_server
     ]
   end

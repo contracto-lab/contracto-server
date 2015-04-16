@@ -4,18 +4,16 @@ class Contracto::SystemAction
   class << self
     include Contracto::Constants
 
-    def remove_tmp_contracto_dir
-      FileUtils.rm_rf contracto_tmp_dir
-    end
-
     def create_sample_contract
-      if contract_already_exists?
+      if Dir.exists?(Contracto::Config.root_dir)
         puts 'contract already exists, creating sample contract skipped'
       else
-        FileUtils.cp_r sample_contract_dir, contracto_tmp_dir
-        move_tmp_dir_files_to_root_dir
-        puts "created: #{contract_filename}"
+        FileUtils.cp_r sample_contract_dir, Contracto::Config.root_dir
       end
+    end
+
+    def revert_create_sample_contract
+      remove_root_dir
     end
 
     def start_server
@@ -54,27 +52,20 @@ class Contracto::SystemAction
     rescue StandardError
     end
 
-    def clone_repo_to_tmp_contracto_dir
-      success = system "git clone -q  --depth 1 --single-branch --branch master #{Contracto::Config.repo_url} #{contracto_tmp_dir}"
+    def clone_repo
+      FileUtils.rm_rf Contracto::Config.root_dir
+      success = system "git clone -q  --depth 1 --single-branch --branch master #{Contracto::Config.repo_url} #{Contracto::Config.root_dir}"
       raise(Contracto::CouldNotDownloadContractError.new(Contracto::Config.repo_url)) unless success
     end
 
-    def revert_clone_repo_to_tmp_contracto_dir
-      remove_tmp_contracto_dir
+    def revert_clone_repo
+      remove_root_dir
     end
 
-    def move_tmp_dir_files_to_root_dir
-      move_dir_files_to_root_dir(contracto_tmp_dir)
-    end
-    
     private
 
-    def move_dir_files_to_root_dir(dir)
-      system "mv #{dir}/* #{dir}/.[^.]* . 2> /dev/null"  # Could not use FileUtils for some reason
-    end
-
-    def contract_already_exists?
-      File.exist?("#{Contracto::Config.root_dir}/#{contract_filename}")
+    def remove_root_dir
+      FileUtils.rm_rf Contracto::Config.root_dir
     end
 
     def server_already_running?
