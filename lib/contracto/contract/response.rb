@@ -23,7 +23,7 @@ class Contracto::Contract::Response
   end
 
   def params_matches?(other_params)
-    return true if params.nil?
+    return true if params.empty?
 
     params.keys.all? do |key|
       other_params[key] == params[key].to_s
