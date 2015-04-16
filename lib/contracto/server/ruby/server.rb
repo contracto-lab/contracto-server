@@ -14,9 +14,18 @@ class Contracto::Server < Sinatra::Base
 
   Contracto::Parser.new(jsons_with_contracts).contracts.each do |contract|
     send(contract.http_method, contract.url_pattern) do
-      contract.response_body(params)
+      begin
+        contract.response_body(params, headers)
+      rescue StandardError => ex
+        status 500
+        error_response(ex)
+      end
     end
   end
 
+
+  def error_response(ex)
+    ["#{ex.class}: #{ex.message}", ex.backtrace[0, 15].join("\n")].join("\n")
+  end
 end
 
