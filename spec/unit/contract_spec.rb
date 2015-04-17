@@ -1,43 +1,56 @@
 require 'spec_helper'
 
-RSpec.describe Contracto::Contract do
+RSpec.describe 'Contracto' do
 
-  context '#http_method' do
-    let(:contract) { contracts[1] }
-    subject { contract.http_method }
+  context 'HTTP methods' do
+    it 'should return response with GET' do
+      expect(get_users_call.data).to eq [{"first_name"=>"Albert", "last_name"=>"Einstein", "age"=>30}, {"first_name"=>"Kurt", "last_name"=>"Godel", "age"=>35}]
+    end
 
-    it { expect(subject).to eq 'get' }
+    it 'should return response with POST' do
+      # TODO
+    end
   end
 
-  context '#url_pattern' do
-    let(:contract) { contracts[1] }
-    subject { contract.url_pattern }
-
-    it { expect(subject).to eq '/users/:id' }
-  end
-
-  context '#response_body' do
-
+  context 'selecting response' do
     context 'by params' do
-
-      let(:contract) { contracts[1] }
-      let(:response_0) { JSON.parse contract.response_body('id' => '1', 'foo' => 'bar') }
-      let(:response_1) { JSON.parse contract.response_body('id' => '2') }
-
-      it 'should return body based on params' do
-        expect(response_0).to eq('first_name' => 'Albert', 'last_name' => 'Einstein', 'age' => 30)
-        expect(response_1).to eq('first_name' => 'Kurt', 'last_name' => 'Godel', 'age' => 35)
+      it 'should find response by one string param' do
+        expect(get_users_call(search: 'Albert').data).to eq [{"first_name"=>"Albert", "last_name"=>"Einstein", "age"=>30}]
       end
 
-      it 'should raise "ResponseNotFound" exception if no response matches params' do
-        expect{ contract.response_body('id' => '-1') }.to raise_error(Contracto::ResponseNotFoundError)
+      it 'should find response by one integer param' do
+        expect(get_users_by_id_call(id: 1).data).to eq("id"=>1, "first_name"=>"Albert", "last_name"=>"Einstein", "age"=>30)
+      end
+
+      it 'should find response by one hash param' do
+        expect(post_users_call('user[first_name]' => 'New', 'user[last_name]' => 'User', 'user[age]' => '30').data).to eq("id"=>111, "first_name"=>"New", "last_name"=>"User", "age"=>30)
       end
     end
 
-  end
+    context 'by headers' do
+      it 'should find response by header' do
+        expected = <<XML
+<users type="array">
+  <user>
+    <id type="integer">1</id>
+    <first-name>Albert</first-name>
+    <last-name>Einstein</last-name>
+    <age type="integer">30</age>
+  </user>
+  <user>
+    <id type="integer">2</id>
+    <first-name>Kurt</first-name>
+    <last-name>Godel</last-name>
+    <age type="integer">35</age>
+  </user>
+</users>
+XML
 
-  def contracts
-    Contracto::Parser.new(STRINGS_WITH_JSON).contracts
+        given = get_users_call.add_headers({"Content_Type" => "application/xml"}).body.gsub!(/\s+/, "")
+        expected = expected.gsub!(/\s+/, "")
+        expect(given).to eq expected
+      end
+    end
   end
 
 end
