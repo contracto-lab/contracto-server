@@ -12,6 +12,9 @@ class Contracto::Command
           Contracto::Command::Start.new(args).execute
         when 'stop'
           Contracto::Command::Stop.new(args).execute
+        when 'restart'
+          Contracto::Command::Stop.new(args).execute
+          Contracto::Command::Start.new(args).execute
       end
     end
   end
