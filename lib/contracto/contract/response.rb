@@ -78,8 +78,6 @@ class Contracto::Contract::Response
   end
 
   def replace_params_placeholders_with_params_value
-    params.each do |key, value|
-      @body.gsub!(":#{key}", value.to_s) if value
-    end
+    # TODO
   end
 end
