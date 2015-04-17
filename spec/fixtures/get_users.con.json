@@ -1,0 +1,33 @@
+{
+  "request": {
+    "http_method": "get",
+    "path": "/users"
+  },
+  "responses": [
+    {
+      "response": {
+        "body_path": "/users/get_users.json"
+      }
+    },
+    {
+      "request": {
+        "params": {
+          "search": "Albert"
+        }
+      },
+      "response": {
+        "body_path": "/users/get_users_by_search_search_albert.json"
+      }
+    },
+    {
+      "request": {
+        "headers": {
+          "Content-Type": "application/xml"
+        }
+      },
+      "response": {
+        "body_path": "/users/get_users.xml"
+      }
+    }
+  ]
+}

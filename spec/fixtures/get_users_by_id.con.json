@@ -1,0 +1,28 @@
+{
+  "request": {
+    "http_method": "get",
+    "path": "/users/:id"
+  },
+  "responses": [
+    {
+      "request": {
+        "params": {
+          "id": 1
+        }
+      },
+      "response": {
+        "body_path": "/users/get_users_by_id_id_1.json"
+      }
+    },
+    {
+      "request": {
+        "params": {
+          "id": 2
+        }
+      },
+      "response": {
+        "body_path": "/users/get_users_by_id_id_2.json"
+      }
+    }
+  ]
+}
