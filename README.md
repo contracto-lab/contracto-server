@@ -1,5 +1,3 @@
-# IN DEVELOPMENT
-
 # Contracto
 
 Creates HTTP server based on your contract.
