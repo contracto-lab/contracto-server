@@ -1,5 +1,8 @@
 class Contracto::Contract
   require_relative 'contract/response'
+  require_relative 'stats'
+
+  attr_reader :responses
 
   def initialize(hash)
     @hash = hash
@@ -18,7 +21,9 @@ class Contracto::Contract
   def response_body(params, headers)
     response = @responses.find_by_params_and_headers(params, headers)
     raise Contracto::ResponseNotFoundError.new(params) unless response
-    response.body
+    response.body.tap do
+      Contracto::Stats.used_contracts << self unless Contracto::Stats.used_contracts.include?(self)
+    end
   end
 
   class Contracto::Contract::Responses
@@ -31,7 +36,13 @@ class Contracto::Contract
     def find_by_params_and_headers(params, headers)
       @responses.find do |response|
         response.params_matches?(params) && response.headers_matches?(headers)
+      end.tap do |response|
+        Contracto::Stats.used_responses << response if response && !Contracto::Stats.used_responses.include?(response)
       end
+    end
+
+    def count
+      @responses.count
     end
   end
 

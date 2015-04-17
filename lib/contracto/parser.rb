@@ -1,6 +1,8 @@
 require 'json'
 
 class Contracto::Parser
+  require_relative 'stats'
+
   def initialize(strings_with_json)
     @json_collection = strings_with_json.map { |string| JSON.parse(string) }
   end
@@ -11,6 +13,8 @@ class Contracto::Parser
       json.map do |json|
         Contracto::Contract.new(json)
       end
-    end.flatten
+    end.flatten.tap do |contracts|
+      Contracto::Stats.all_contracts = contracts
+    end
   end
 end

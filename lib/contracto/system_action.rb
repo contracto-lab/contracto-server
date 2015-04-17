@@ -41,10 +41,8 @@ class Contracto::SystemAction
 
     def stop_server
       puts 'killing server...'
-      Process.kill(15, File.read("#{Contracto::Config.root_dir}/#{server_pidfile_name}.pid").to_i)
+      system "curl 0.0.0.0:#{port}/contracto_terminate"
       puts '...server killed'
-    rescue Errno::ENOENT
-      puts 'could not kill server (pidfile not found)'
     end
 
     def revert_start_server
