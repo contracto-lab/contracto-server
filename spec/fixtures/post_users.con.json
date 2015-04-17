@@ -1,0 +1,22 @@
+{
+  "request": {
+    "http_method": "post",
+    "path": "/users"
+  },
+  "responses": [
+    {
+      "request": {
+        "params": {
+          "user": {
+            "first_name": "New",
+            "last_name": "User",
+            "age": "30"
+          }
+        }
+      },
+      "response": {
+        "body_path": "/users/post_users.json"
+      }
+    }
+  ]
+}
