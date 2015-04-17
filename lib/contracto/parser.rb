@@ -7,7 +7,8 @@ class Contracto::Parser
 
   def contracts
     @json_collection.map do |json|
-      Array(json).map do |json|
+      json = [json] unless json.is_a?(Array)
+      json.map do |json|
         Contracto::Contract.new(json)
       end
     end.flatten
