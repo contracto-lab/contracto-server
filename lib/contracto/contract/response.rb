@@ -22,11 +22,18 @@ class Contracto::Contract::Response
     @hash.fetch('response').fetch('body_path')
   end
 
-  def params_matches?(other_params)
+  def params_matches?(request_params)
     return true if params.empty?
 
     params.keys.all? do |key|
-      other_params[key] == params[key].to_s
+      value_from_contract = params[key]
+      value_from_request = request_params[key]
+
+      if value_from_contract.is_a?(Numeric)
+        value_from_request = string_to_number(value_from_contract, value_from_request)
+      end
+
+      value_from_request == value_from_contract
     end
   end
 
@@ -50,6 +57,14 @@ class Contracto::Contract::Response
   end
 
   private
+
+  def string_to_number(number, string)
+    if number.is_a?(Integer)
+      string.to_i
+    elsif number.is_a?(Float)
+      string.to_f
+    end
+  end
 
   def set_body
     @body = File.read(Contracto::Config.root_dir + body_path)
