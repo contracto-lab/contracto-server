@@ -1,8 +1,11 @@
+require 'fileutils'
+
 class Contracto::SystemAction
-  require 'fileutils'
+  require_relative 'server'
+
+  extend Contracto::Constants
 
   class << self
-    include Contracto::Constants
 
     def create_sample_contract
       if Dir.exists?(Contracto::Config.root_dir)
@@ -17,37 +20,11 @@ class Contracto::SystemAction
     end
 
     def start_server
-      raise Contracto::ServerAlreadyRunningError if server_already_running?
-
-      require_relative 'server/ruby/server'
-      require 'daemons'
-
-      options = {
-        app_name: server_pidfile_name,
-        dir: Contracto::Config.root_dir,
-        dir_mode: :normal
-      }
-
-      Daemons.call(options) do
-        Contracto::Server.run!
-      end
-
-      5.downto(0).each do |n|
-        sleep 1
-        puts "waiting for contracto server, #{n} tries left..."
-        break if test_request(silent: true)
-      end
+      Contracto::Server.start_contracto_server!
     end
 
     def stop_server
-      puts 'killing server...'
-      system "curl 0.0.0.0:#{port}/contracto_terminate"
-      puts '...server killed'
-    end
-
-    def revert_start_server
-      stop_server
-    rescue StandardError
+      Contracto::Server.stop_contracto_server!
     end
 
     def clone_repo
@@ -66,15 +43,6 @@ class Contracto::SystemAction
       FileUtils.rm_rf Contracto::Config.root_dir
     end
 
-    def server_already_running?
-      test_request(silent: true)
-    end
-
-    def test_request(options = {})
-      args = ''
-      args << '-s -o /dev/null' if options[:silent]
-      system "curl #{args} 0.0.0.0:#{port}/contracto"
-    end
   end
 end
 

@@ -3,6 +3,7 @@ class Contracto::Command::Stop
   end
 
   def execute
+    puts 'killing contracto server...'
     Contracto::SystemActionChain.new(*actions).execute
   end
 

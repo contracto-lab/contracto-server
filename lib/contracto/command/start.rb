@@ -3,6 +3,7 @@ class Contracto::Command::Start
   require_relative 'start/local'
 
   def initialize(args)
+    puts 'starting contracto server...'
     if args.first
       @strategy = Contracto::Command::Start::Remote.new(args.first)
     else

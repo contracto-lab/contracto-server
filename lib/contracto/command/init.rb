@@ -6,7 +6,7 @@ class Contracto::Command::Init
     initialized = Contracto::SystemActionChain.new(*actions).execute
 
     if initialized
-      puts 'contract initialized, enter \'contracto start\' to start server'
+      puts 'contract initialized, enter "contracto start" to start server'
     else
       puts 'initializing contract failed'
     end
