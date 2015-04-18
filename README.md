@@ -1,5 +1,3 @@
-# IN DEVELOPMENT
-
 # Contracto
 
 Creates HTTP server based on your contract.
@@ -16,7 +14,7 @@ Start server:
     
 Test server (default port is __54321__):
 
-    $ curl 0.0.0.0:54321/users; curl 0.0.0.0:54321/users/1; curl 0.0.0.0:54321/users/2
+    $ curl localhost:54321/users; curl localhost:54321/users/1; curl localhost:54321/users/2
     
 Stop server: 
 
