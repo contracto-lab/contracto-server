@@ -1,6 +1,6 @@
 class Contracto::Server < Sinatra::Base
 
-  jsons_with_contracts = Dir["#{Contracto::Config.root_dir}/**/*.con.json"].map do |file_with_contract|
+  jsons_with_contracts = Dir["#{Contracto::Config.root_dir}/**/*.contract.json"].map do |file_with_contract|
     File.read file_with_contract
   end
 
