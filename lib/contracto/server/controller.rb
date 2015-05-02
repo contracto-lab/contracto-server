@@ -47,7 +47,7 @@ class Contracto::Server < Sinatra::Base
     end
 
     def wait_until_server_is_running
-      5.downto(0).each do |n|
+      10.downto(0).each do |n|
         sleep 1
         puts "waiting for contracto server, #{n} tries left..."
         return true if contracto_server_running?
