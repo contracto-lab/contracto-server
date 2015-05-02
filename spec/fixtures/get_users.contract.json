@@ -1,9 +1,11 @@
 {
-  "request": {
-    "http_method": "get",
-    "path": "/users"
+  "schema": {
+    "request": {
+      "method": "get",
+      "path": "/users"
+    }
   },
-  "responses": [
+  "examples": [
     {
       "request": {
         "params": {
