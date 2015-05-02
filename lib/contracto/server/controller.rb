@@ -50,8 +50,9 @@ class Contracto::Server < Sinatra::Base
       5.downto(0).each do |n|
         sleep 1
         puts "waiting for contracto server, #{n} tries left..."
-        break if contracto_server_running?
+        return true if contracto_server_running?
       end
+      raise Contracto::CouldNotStartServer
     end
   end
 

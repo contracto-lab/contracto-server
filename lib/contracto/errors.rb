@@ -4,6 +4,9 @@ class Contracto::CouldNotDownloadContractError < StandardError
   end
 end
 
+class Contracto::CouldNotStartServer < StandardError
+end
+
 class Contracto::ServerAlreadyRunningError < StandardError
   def initialize
     super 'Could not start: Contracto server is already running'

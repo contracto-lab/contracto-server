@@ -23,6 +23,10 @@ class Contracto::SystemAction
       Contracto::Server.start_contracto_server!
     end
 
+    def revert_start_server
+      stop_server
+    end
+
     def stop_server
       Contracto::Server.stop_contracto_server!
     end
