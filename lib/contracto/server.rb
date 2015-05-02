@@ -7,6 +7,7 @@ class Contracto::Server < Sinatra::Base
   require_relative 'stats'
 
   set :port, Contracto::Constants::PORT
+  set :show_exceptions, false
 
   get '/contracto' do
     "*** Contracto server is working! [#{Gem::Specification.find_by_name('contracto').version}] ***"
@@ -18,5 +19,14 @@ class Contracto::Server < Sinatra::Base
     Contracto::Stats.summary
   end
 
+  not_found do
+    status 404
+    "Could not found example for #{request.url}"
+  end
+
+  error do |ex|
+    status 500
+    ["#{ex.class}: #{ex.message}", ex.backtrace[0, 15].join("\n")].join("\n")
+  end
 end
 
