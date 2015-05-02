@@ -11,8 +11,8 @@ class Contracto::Config
     end
 
     def root_dir
-      @cached_root_dir ||= if @root_dir
-        "#{current_dir}/#{@root_dir}"
+      @cached_root_dir ||= if @cached_root_dir
+        "#{current_dir}/#{@cached_root_dir}"
       else
         default_root_dir
       end
