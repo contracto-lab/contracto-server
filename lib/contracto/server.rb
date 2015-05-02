@@ -16,7 +16,7 @@ class Contracto::Server < Sinatra::Base
   get '/contracto/terminate' do
     Thread.new { sleep 1; Process.kill 'INT', Process.pid }
     status 200
-    Contracto::Stats.summary
+    Contracto::Stats.summary rescue ''
   end
 
   not_found do

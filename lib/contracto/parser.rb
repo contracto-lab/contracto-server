@@ -4,6 +4,8 @@ class Contracto::Parser
   require_relative 'stats'
 
   def initialize(strings_with_json)
+    puts 'warning: no contracts found, create some *.contract.json files' if strings_with_json.empty?
+
     @json_collection = strings_with_json.map { |string| JSON.parse(string) }
   end
 

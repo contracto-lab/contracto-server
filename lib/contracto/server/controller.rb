@@ -12,6 +12,9 @@ class Contracto::Server < Sinatra::Base
       if contracto_server_running?
         puts 'contracto server is already running, enter "contracto stop" to kill it'
         return
+      elsif !root_dir_exists?
+        puts "current dir does not contain required contracto dir (#{Contracto::Config.root_dir})"
+        return
       end
 
       start_daemon!
@@ -33,6 +36,10 @@ class Contracto::Server < Sinatra::Base
 
     private
 
+    def root_dir_exists?
+      Dir.exists?(Contracto::Config.root_dir)
+    end
+
     def contracto_server_running?
       uri = URI.parse("http://localhost:#{port}/contracto")
       Net::HTTP.get_response(uri).is_a?(Net::HTTPOK)
@@ -50,7 +57,10 @@ class Contracto::Server < Sinatra::Base
       10.downto(0).each do |n|
         sleep 1
         puts "waiting for contracto server, #{n} tries left..."
-        return true if contracto_server_running?
+        if contracto_server_running?
+          puts '...contracto server is working'
+          return true
+        end
       end
       raise Contracto::CouldNotStartServer
     end
