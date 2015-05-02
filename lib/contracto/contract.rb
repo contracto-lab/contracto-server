@@ -6,8 +6,8 @@ class Contracto::Contract
 
   def initialize(hash)
     @hash = hash
-    @request   = Contracto::Contract::Request.new(@hash.fetch('request'))
-    @responses = Contracto::Contract::Responses.new(@hash.fetch('responses'))
+    @request   = Contracto::Contract::Request.new(@hash.fetch('schema').fetch('request'))
+    @responses = Contracto::Contract::Responses.new(@hash.fetch('examples'))
   end
 
   def http_method
@@ -52,7 +52,7 @@ class Contracto::Contract
     end
 
     def http_method
-      @hash.fetch('http_method')
+      @hash.fetch('method')
     end
 
     def url_pattern
