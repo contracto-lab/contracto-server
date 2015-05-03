@@ -1,4 +1,5 @@
 class Contracto::Contract
+  require_relative 'contract/request'
   require_relative 'contract/response'
   require_relative 'stats'
 
@@ -43,20 +44,6 @@ class Contracto::Contract
 
     def count
       @responses.count
-    end
-  end
-
-  class Contracto::Contract::Request
-    def initialize(hash)
-      @hash = hash
-    end
-
-    def http_method
-      @hash.fetch('method')
-    end
-
-    def url_pattern
-      @hash.fetch('path')
     end
   end
 end
