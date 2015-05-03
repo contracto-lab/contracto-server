@@ -4,18 +4,17 @@ class Contracto::Config
   class << self
 
     attr_accessor :repo_url
-    attr_accessor :root_dir
 
     def configure
       yield self if block_given?
     end
 
+    def root_dir=(root_dir)
+      @root_dir = "#{current_dir}/#{root_dir}"
+    end
+
     def root_dir
-      @cached_root_dir ||= if @cached_root_dir
-        "#{current_dir}/#{@cached_root_dir}"
-      else
-        default_root_dir
-      end
+      @root_dir || default_root_dir
     end
 
   end
