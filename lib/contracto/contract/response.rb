@@ -50,10 +50,7 @@ class Contracto::Contract::Response
   end
 
   def body
-    set_body
-    @body.tap do
-      replace_params_placeholders_with_params_value
-    end
+    File.read(Contracto::Config.root_dir + body_path)
   end
 
   private
@@ -66,18 +63,10 @@ class Contracto::Contract::Response
     end
   end
 
-  def set_body
-    @body = File.read(Contracto::Config.root_dir + body_path)
-  end
-
   def human_header_key_to_http_header_key(key)
     key = key.upcase
     key = key.gsub('-', '_')
     key = 'HTTP_' + key
     key
-  end
-
-  def replace_params_placeholders_with_params_value
-    # TODO
   end
 end
