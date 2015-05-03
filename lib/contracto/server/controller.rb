@@ -17,6 +17,7 @@ class Contracto::Server < Sinatra::Base
         return
       end
 
+      create_routes_from_contract
       start_daemon!
       wait_until_server_is_running
     end
@@ -45,6 +46,10 @@ class Contracto::Server < Sinatra::Base
       Net::HTTP.get_response(uri).is_a?(Net::HTTPOK)
     rescue Errno::ECONNREFUSED
       false
+    end
+
+    def create_routes_from_contract
+      require_relative 'contract_routes'
     end
 
     def start_daemon!

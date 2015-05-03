@@ -4,6 +4,10 @@ class Contracto::Server < Sinatra::Base
     File.read file_with_contract
   end
 
+  if jsons_with_contracts.empty?
+    puts "warning: no contracts found in #{Contracto::Config.root_dir}, create some *.contract.json files"
+  end
+
   Contracto::Parser.new(jsons_with_contracts).contracts.each do |contract|
     send(contract.http_method, contract.url_pattern) do
       contract.response_body(params, http_headers)
