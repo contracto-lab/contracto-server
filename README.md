@@ -10,7 +10,7 @@ Creates HTTP server based on your contract.
 
 Start server:
 
-    $ contracto start git@github.com:kv109/contracto_sample-contract.git
+    $ contracto start https://github.com/contracto-lab/contracto-format.git
     
 Test server (default port is __54321__):
 

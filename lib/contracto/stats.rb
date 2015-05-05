@@ -30,11 +30,11 @@ class Contracto::Stats
     end
     
     def contracts_stats_summary
-      "contracts usage: #{used_contracts.size}/#{all_contracts.size} (#{contracts_usage}%)"
+      "contracts usage: #{used_contracts.size}/#{all_contracts.size} (#{contracts_usage * 100}%)"
     end
 
     def responses_stats_summary
-      "examples usage: #{used_responses.size}/#{all_responses.size} (#{responses_usage}%)"
+      "examples usage: #{used_responses.size}/#{all_responses.size} (#{responses_usage * 100}%)"
     end
 
     def summary
