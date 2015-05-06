@@ -1,5 +1,7 @@
 # Contracto
 
+[![EL Passion](https://img.shields.io/badge/Supported%20by-EL%20Passion-36b452.svg)](https://github.com/elpassion)
+
 Creates HTTP server based on your contract.
 
 ## Installation
