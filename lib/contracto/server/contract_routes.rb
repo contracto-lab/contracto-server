@@ -10,7 +10,8 @@ class Contracto::Server < Sinatra::Base
 
   Contracto::Parser.new(jsons_with_contracts).contracts.each do |contract|
     send(contract.http_method, contract.url_pattern) do
-      contract.response_body(params, http_headers)
+      contract_response = contract.response(params, http_headers)
+      contract_response.body
     end
   end
 

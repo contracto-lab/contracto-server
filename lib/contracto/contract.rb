@@ -19,11 +19,24 @@ class Contracto::Contract
     @request.url_pattern
   end
 
-  def response_body(params, headers)
-    response = @responses.find_by_params_and_headers(params, headers)
-    raise Contracto::ResponseNotFoundError.new(params) unless response
-    response.body.tap do
+  def response(params, headers)
+    @response = @responses.find_by_params_and_headers(params, headers)
+    @response.tap do
+      update_stats
+      handle_missing_response
+    end
+  end
+
+  private
+
+  def handle_missing_response
+    raise Contracto::ResponseNotFoundError.new(params) unless @response
+  end
+
+  def update_stats
+    if @response
       Contracto::Stats.used_contracts << self unless Contracto::Stats.used_contracts.include?(self)
+      Contracto::Stats.used_responses << @response unless Contracto::Stats.used_responses.include?(@response)
     end
   end
 
@@ -37,8 +50,6 @@ class Contracto::Contract
     def find_by_params_and_headers(params, headers)
       @responses.find do |response|
         response.params_matches?(params) && response.headers_matches?(headers)
-      end.tap do |response|
-        Contracto::Stats.used_responses << response if response && !Contracto::Stats.used_responses.include?(response)
       end
     end
 
