@@ -23,14 +23,14 @@ class Contracto::Contract
     @response = @responses.find_by_params_and_headers(params, headers)
     @response.tap do
       update_stats
-      handle_missing_response
+      handle_missing_response(params, headers)
     end
   end
 
   private
 
-  def handle_missing_response
-    raise Contracto::ResponseNotFoundError.new(params) unless @response
+  def handle_missing_response(params, headers)
+    raise Contracto::ResponseNotFoundError.new(self, params, headers) unless @response
   end
 
   def update_stats
@@ -55,6 +55,10 @@ class Contracto::Contract
 
     def count
       @responses.count
+    end
+
+    def map(&block)
+      @responses.map(&block)
     end
   end
 end

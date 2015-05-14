@@ -23,6 +23,11 @@ class Contracto::Server < Sinatra::Base
     "Could not found example for #{request.url}"
   end
 
+  error Contracto::ResponseNotFoundError do |ex|
+    status 404
+    ex.full_message
+  end
+
   error do |ex|
     status 500
     ["#{ex.class}: #{ex.message}", ex.backtrace[0, 15].join("\n")].join("\n")
