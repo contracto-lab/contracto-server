@@ -3,18 +3,25 @@ require 'json'
 class Contracto::Parser
   require_relative 'stats'
 
-  def initialize(strings_with_json)
-    @json_collection = strings_with_json.map { |string| JSON.parse(string) }
+  def initialize(contract_files)
+    @contract_files = contract_files
   end
 
   def contracts
-    @json_collection.map do |json|
-      json = [json] unless json.is_a?(Array)
-      json.map do |json|
-        Contracto::Contract.new(json)
-      end
-    end.flatten.tap do |contracts|
+    @contract_files.map(&method(:create_contract_from_file)).flatten.tap do |contracts|
       Contracto::Stats.all_contracts = contracts
     end
   end
+
+  private
+
+  def create_contract_from_file(file_path)
+    parsed_json = JSON.parse(File.read(file_path))
+    parsed_json = [parsed_json] unless parsed_json.is_a?(Array)
+
+    parsed_json.map do |hash|
+      Contracto::Contract.new(hash, file_path)
+    end
+  end
+
 end

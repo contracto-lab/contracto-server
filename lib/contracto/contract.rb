@@ -3,10 +3,11 @@ class Contracto::Contract
   require_relative 'contract/response'
   require_relative 'stats'
 
-  attr_reader :responses
+  attr_reader :responses, :file_path
 
-  def initialize(hash)
+  def initialize(hash, file_path)
     @hash = hash
+    @file_path = file_path
     @request   = Contracto::Contract::Request.new(@hash.fetch('schema').fetch('request'))
     @responses = Contracto::Contract::Responses.new(@hash.fetch('examples'))
   end

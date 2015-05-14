@@ -7,9 +7,11 @@ class Contracto::ResponseNotFoundError < StandardError
 
   def full_message
     [
+      'ERROR'.center(20, '*'),
       "Contract does not contain example for following params:\n#{pretty_formatted_params}",
       'Existing examples cover following set of params:',
-      pretty_formatted_examples_params
+      pretty_formatted_examples_params,
+      "Please update #{@contract.file_path}"
     ].join("\n\n") + "\n"
   end
 
