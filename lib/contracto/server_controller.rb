@@ -2,7 +2,8 @@ require 'daemons'
 require 'net/http'
 require 'uri'
 
-class Contracto::Server < Sinatra::Base
+class Contracto::ServerController
+  require_relative 'server'
 
   extend Contracto::Constants
 
@@ -49,7 +50,7 @@ class Contracto::Server < Sinatra::Base
     end
 
     def create_routes_from_contract
-      require_relative 'contract_routes'
+      require_relative 'server/contract_routes'
     end
 
     def start_daemon!

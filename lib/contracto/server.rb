@@ -2,7 +2,6 @@ require 'sinatra/base'
 
 class Contracto::Server < Sinatra::Base
 
-  require_relative 'server/controller'
   require_relative 'stats'
 
   set :port, Contracto::Constants::PORT

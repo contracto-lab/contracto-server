@@ -1,3 +1,5 @@
+require 'sinatra/base'
+
 class Contracto::Server < Sinatra::Base
 
   contract_files = Dir["#{Contracto::Config.root_dir}/**/*.contract.json"]

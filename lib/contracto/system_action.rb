@@ -1,8 +1,7 @@
 require 'fileutils'
 
 class Contracto::SystemAction
-  require_relative 'server'
-
+  require_relative 'server_controller'
   extend Contracto::Constants
 
   class << self
@@ -20,7 +19,7 @@ class Contracto::SystemAction
     end
 
     def start_server
-      Contracto::Server.start_contracto_server!
+      Contracto::ServerController.start_contracto_server!
     end
 
     def revert_start_server
@@ -28,7 +27,7 @@ class Contracto::SystemAction
     end
 
     def stop_server
-      Contracto::Server.stop_contracto_server!
+      Contracto::ServerController.stop_contracto_server!
     end
 
     def clone_repo

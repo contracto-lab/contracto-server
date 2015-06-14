@@ -15,8 +15,6 @@ class Contracto::Command::Init
   private
 
   def actions
-    [
-      :create_sample_contract
-    ]
+    [:create_sample_contract]
   end
 end
