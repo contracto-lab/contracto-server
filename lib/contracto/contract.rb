@@ -13,7 +13,7 @@ class Contracto::Contract
   end
 
   def http_method
-    @request.http_method
+    @request.http_method.downcase
   end
 
   def url_pattern
