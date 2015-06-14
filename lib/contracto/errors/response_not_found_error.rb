@@ -7,26 +7,23 @@ class Contracto::ResponseNotFoundError < StandardError
 
   def full_message
     [
-      'ERROR'.center(20, '*'),
-      "Contract does not contain example for following params:\n#{pretty_formatted_params}",
-      'Existing examples cover following set of params:',
-      pretty_formatted_examples_params,
+      'Contract does not contain example for following params:',
+      pretty_formatted_params,
+      'and (or) headers:',
+      pretty_formatted_headers,
       "Please update #{@contract.file_path}"
-    ].join("\n\n") + "\n"
+    ].join("\n") + "\n"
   end
 
   private
 
   def pretty_formatted_params
+    return '(NO PARAMS)' if @params.empty?
     JSON.pretty_generate(@params)
   end
 
-  def pretty_formatted_examples_params
-    i = 0
-    examples_params.map do |params|
-      i += 1
-      "example #{i}\n" + JSON.pretty_generate(params) + "\n"
-    end.join("\n")
+  def pretty_formatted_headers
+    JSON.pretty_generate(@headers)
   end
 
   def examples_params
