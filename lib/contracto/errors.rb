@@ -1,3 +1,4 @@
+require_relative 'errors/contract_not_found_error'
 require_relative 'errors/response_not_found_error'
 
 class Contracto::CouldNotDownloadContractError < StandardError

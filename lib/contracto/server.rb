@@ -19,8 +19,11 @@ class Contracto::Server < Sinatra::Base
   end
 
   not_found do
-    status 404
-    "Could not found example for #{request.url}"
+    begin
+      Contracto::ContractNotFoundError.new(request.path_info, request.request_method).full_message
+    rescue StandardError => ex
+      unexpected_error_message(ex)
+    end
   end
 
   error Contracto::ResponseNotFoundError do |ex|
@@ -30,6 +33,10 @@ class Contracto::Server < Sinatra::Base
 
   error do |ex|
     status 500
+    unexpected_error_message(ex)
+  end
+
+  def unexpected_error_message(ex)
     ["#{ex.class}: #{ex.message}", ex.backtrace[0, 15].join("\n")].join("\n")
   end
 end
