@@ -11,6 +11,10 @@ class Contracto::Server < Sinatra::Base
   Contracto::Parser.new(contract_files).contracts.each do |contract|
     send(contract.http_method, contract.url_pattern) do
       contract_response = contract.response(params, http_headers)
+
+      headers['contract-filename'] = contract.filename
+      headers['contract-example-path'] = contract_response.body_path
+
       contract_response.body
     end
   end

@@ -3,7 +3,7 @@ class Contracto::Contract
   require_relative 'contract/response'
   require_relative 'stats'
 
-  attr_reader :responses, :file_path
+  attr_reader :responses
 
   def initialize(hash, file_path)
     @hash = hash
@@ -26,6 +26,10 @@ class Contracto::Contract
       update_stats
       handle_missing_response(params, headers)
     end
+  end
+
+  def filename
+    @filename ||= @file_path.split('/').last
   end
 
   private
